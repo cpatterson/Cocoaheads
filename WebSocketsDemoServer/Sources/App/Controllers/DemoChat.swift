@@ -34,7 +34,7 @@ class DemoChat: ClassicObserver {
 
     override func on(text: String, client: AnyClient) {
         let name = chatNames[client.id] ?? Constants.defaultName
-        _ = client.broadcast.channels("chat").send(text: "**\(name)** \(text)")
+        _ = client.broadcast.channels("chat").send(text: "**\(name)**\n\(text)")
         print("**\(name)** \(text)")
     }
     /// also you can override: `on(ping:)`, `on(pong:)`, `on(binary:)`, `on(byteBuffer:)`

@@ -136,3 +136,4 @@ bin/waldo
 
 # an output of fastlane-plugin-doximity_xcode_installer
 .ios-version
+*.xcworkspacedata
