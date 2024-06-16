@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct GameView: View {
+    @Binding var name: String?
+
     var body: some View {
         NavigationView {
             VStack {
@@ -10,10 +12,22 @@ struct GameView: View {
             }
             .navigationTitle("Tic-Tac-Toe")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(
+                        action: {
+                            name = nil
+                        },
+                        label: {
+                            Text("Sign Out")
+                        }
+                    )
+                }
+            }
         }
     }
 }
 
 #Preview {
-    GameView()
+    GameView(name: Binding(get: { "Chris" }, set: { _ in }))
 }

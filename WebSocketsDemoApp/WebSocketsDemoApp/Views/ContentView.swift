@@ -1,24 +1,38 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var name: String
+    @State var name: String?
+    @State var isPresenting = false
+
+    func updateState() {
+        isPresenting = (name == nil)
+    }
 
     var body: some View {
         TabView {
-            ChatView(name: name)
+            ChatView(name: $name)
                 .tabItem {
                     TabLabel(imageName: "text.bubble", label: "Chat")
                 }
 
-            GameView()
+            GameView(name: $name)
                 .tabItem {
                     TabLabel(imageName: "grid", label: "Play")
                 }
 
-            PaintView()
+            PaintView(name: $name)
                 .tabItem {
                     TabLabel(imageName: "paintpalette", label: "Paint")
                 }
+        }
+        .onAppear {
+            updateState()
+        }
+        .onChange(of: name) {
+            updateState()
+        }
+        .sheet(isPresented: $isPresenting) {
+            SignInSheet(name: $name)
         }
     }
 }
@@ -36,5 +50,5 @@ struct TabLabel: View {
 }
 
 #Preview {
-    ContentView(name: "Chris")
+    ContentView()
 }

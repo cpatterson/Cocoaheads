@@ -12,14 +12,16 @@ struct ChatMessage: Identifiable {
 }
 
 struct ChatView: View {
-    var name: String
-
+    @Binding var name: String?
     @State var newMessage = ""
     @State var messages: [ChatMessage] = []
     @State var connection: WebSocketConnection?
     @FocusState var isFocused: Bool
 
-    var chatURL: URL { .init(string: "ws://vision.local:8080/chat/\(name)")! }
+    var chatURL: URL? {
+        guard let name else { return nil }
+        return URL(string: "ws://vision.local:8080/chat/\(name)")!
+    }
 
     var body: some View {
         NavigationView {
@@ -27,7 +29,7 @@ struct ChatView: View {
                 Divider()
                 ScrollView {
                     ForEach($messages) { message in
-                        MessageView(message: message.wrappedValue)
+                        MessageView(message: message)
                     }
                 }
                 TextField(text: $newMessage, prompt: Text("Type a message...")) {
@@ -49,17 +51,42 @@ struct ChatView: View {
             }
             .navigationTitle("Chat")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(
+                        action: { 
+                            disconnect()
+                            name = nil
+                        },
+                        label: {
+                            Text("Sign Out")
+                        }
+                    )
+                }
+            }
             .onAppear {
                 isFocused = true
-                connection = WebSocketConnection.connect(url: chatURL, stringReceived: { message in
-                    messages.append(ChatMessage(text: message, isLocal: message.hasPrefix("**\(name)**")))
-                })
+                connect()
             }
             .onDisappear {
-                connection?.close()
-                connection = nil
+                disconnect()
+            }
+            .onChange(of: name) {
+                connect()
             }
         }
+    }
+
+    func connect() {
+        guard let name, let chatURL else { return }
+        connection = WebSocketConnection.connect(url: chatURL, stringReceived: { message in
+            messages.append(ChatMessage(text: message, isLocal: message.hasPrefix("**\(name)**")))
+        })
+    }
+
+    func disconnect() {
+        connection?.close()
+        connection = nil
     }
 
     func sendMessage(_ text: String) {
@@ -73,7 +100,7 @@ struct ChatView: View {
 }
 
 struct MessageView: View {
-    let message: ChatMessage
+    @Binding var message: ChatMessage
 
     var body: some View {
         Text(message.text)
@@ -84,5 +111,5 @@ struct MessageView: View {
 }
 
 #Preview {
-    ChatView(name: "Chris")
+    ChatView(name: Binding(get: { "Chris" }, set: { _ in }))
 }

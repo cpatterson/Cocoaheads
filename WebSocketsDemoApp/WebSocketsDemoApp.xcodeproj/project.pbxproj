@@ -10,6 +10,7 @@
 		21151AA92C1DD5BC00A8057A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21151AA82C1DD5BC00A8057A /* ChatView.swift */; };
 		21151AAB2C1DD5E800A8057A /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21151AAA2C1DD5E800A8057A /* GameView.swift */; };
 		21151AAD2C1DD61500A8057A /* PaintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21151AAC2C1DD61500A8057A /* PaintView.swift */; };
+		218AC82F2C1EB7F0006C9ADB /* SignInSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218AC82E2C1EB7F0006C9ADB /* SignInSheet.swift */; };
 		219272EA2C1DC75C003DB9D6 /* WebSocketsDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219272E92C1DC75C003DB9D6 /* WebSocketsDemoApp.swift */; };
 		219272EC2C1DC75C003DB9D6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219272EB2C1DC75C003DB9D6 /* ContentView.swift */; };
 		219272EE2C1DC75D003DB9D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 219272ED2C1DC75D003DB9D6 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 		21151AA82C1DD5BC00A8057A /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		21151AAA2C1DD5E800A8057A /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		21151AAC2C1DD61500A8057A /* PaintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintView.swift; sourceTree = "<group>"; };
+		218AC82E2C1EB7F0006C9ADB /* SignInSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSheet.swift; sourceTree = "<group>"; };
 		219272E62C1DC75C003DB9D6 /* WebSocketsDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebSocketsDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219272E92C1DC75C003DB9D6 /* WebSocketsDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketsDemoApp.swift; sourceTree = "<group>"; };
 		219272EB2C1DC75C003DB9D6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,6 +50,7 @@
 				21151AA82C1DD5BC00A8057A /* ChatView.swift */,
 				21151AAA2C1DD5E800A8057A /* GameView.swift */,
 				21151AAC2C1DD61500A8057A /* PaintView.swift */,
+				218AC82E2C1EB7F0006C9ADB /* SignInSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 			files = (
 				219272EC2C1DC75C003DB9D6 /* ContentView.swift in Sources */,
 				21151AAD2C1DD61500A8057A /* PaintView.swift in Sources */,
+				218AC82F2C1EB7F0006C9ADB /* SignInSheet.swift in Sources */,
 				21151AA92C1DD5BC00A8057A /* ChatView.swift in Sources */,
 				21BCBDF92C1E843D00B9E748 /* WebSocketConnection.swift in Sources */,
 				21151AAB2C1DD5E800A8057A /* GameView.swift in Sources */,
