@@ -44,6 +44,7 @@ extension Game {
                 nil
             )
         }
+        print("**\(player.name)** placed an \(move.player.rawValue.uppercased()) on (\(move.row), \(move.col))")
         let outcome = state.checkWin()
         return (
             .moveAccepted(state.board, outcome),

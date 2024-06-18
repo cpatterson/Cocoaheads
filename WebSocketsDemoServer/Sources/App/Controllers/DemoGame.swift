@@ -5,22 +5,6 @@ extension WSID {
     static var demoGame: WSID<DemoGame> { .init() }
 }
 
-enum ServerGameMessage: Codable {
-    case waitingForPlayer
-    case yourTurn
-    case opponentsTurn
-    case moveAccepted(TicTacToe.Board, TicTacToe.GameState)
-    case moveRejected
-    case opponentMoved(TicTacToe.Board, TicTacToe.GameState)
-    case opponentLeft(TicTacToe.GameState)
-}
-
-enum ClientGameMessage: Codable {
-    case move(GameMove)
-    case joinGame
-    case leaveGame
-}
-
 extension AnyClient {
     func send(_ gameMessage: ServerGameMessage) {
         let encoder = JSONEncoder()
@@ -42,7 +26,7 @@ class DemoGame: ClassicObserver {
         let player = User(name: name, clientID: client.id)
         players[client.id] = player
 
-        client.subscribe(to: "game", on: eventLoop)
+//        client.subscribe(to: "game", on: eventLoop)
 
         joinGame(player, client)
     }
@@ -52,7 +36,7 @@ class DemoGame: ClassicObserver {
 
         leaveGame(player, client)
 
-        client.unsubscribe(from: "game", on: eventLoop)
+//        client.unsubscribe(from: "game", on: eventLoop)
         players.removeValue(forKey: client.id)
     }
 
@@ -93,7 +77,7 @@ class DemoGame: ClassicObserver {
 
 extension DemoGame {
     func pendingGame(_ player: User) -> Game? {
-        if let index = games.firstIndex(where: \.needsPlayer) {
+        if let index = games.firstIndex(where: { $0.needsPlayer && $0.playerX != player }) {
             var game = games[index]
             game.playerO = player
             games[index] = game
@@ -145,10 +129,13 @@ extension DemoGame {
         if let game = games.first(where: { $0.contains(player) }) {
             print("Game board:")
             game.state.printBoard()
-            if
-                let outcome = game.leave(player, client),
-                let opponentClient = clients.first(where: { $0.id == game.players.first?.clientID }) {
-                opponentClient.send(.opponentLeft(outcome))
+            if let outcome = game.leave(player, client) {
+                client.send(.youLeft(outcome))
+                if
+                    let opponent = game.players.first(where: { $0.clientID != player.clientID }),
+                    let opponentClient = clients.first(where: { $0.id == opponent.clientID }) {
+                    opponentClient.send(.opponentLeft(outcome))
+                }
             }
         }
         games.removeAll(where: { $0.contains(player) })
@@ -161,7 +148,6 @@ extension DemoGame {
         _ client: AnyClient
     ) {
         let playerMessages = game.makeMove(player, move: gameMove)
-        print("**\(player.name)** placed an \(gameMove.player.rawValue.uppercased()) on (\(gameMove.row), \(gameMove.col))")
         print("Game board:")
         game.state.printBoard()
 
@@ -183,7 +169,7 @@ extension DemoGame {
         }
 
         client.send(playerMessages.0)
-        if !outcome.hasEnded {
+        if !outcome.hasEnded && !playerMessages.0.moveWasRejected {
             client.send(.opponentsTurn)
         }
 
