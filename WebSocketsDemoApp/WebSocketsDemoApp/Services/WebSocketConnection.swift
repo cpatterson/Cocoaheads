@@ -157,7 +157,12 @@ class WebSocketConnection: NSObject {
             let object = try WebSocketConnection.decoder.decode(Object.self, from: data)
             handler?(object)
         } catch {
-            debugPrint("WebSocketConnection: error decoding object of type \(Object.self): \(error.localizedDescription)")
+            debugPrint(
+                """
+                WebSocketConnection: error decoding object of type \(Object.self): \(error.localizedDescription)
+                \(String(data: data, encoding: .utf8) ?? "(nil UTF-8 string value)")
+                """
+            )
         }
     }
 }

@@ -16,6 +16,7 @@ struct ChatView: View {
     @State var newMessage = ""
     @State var messages: [ChatMessage] = []
     @State var connection: WebSocketConnection?
+    @State var isVisible = false
     @FocusState var isFocused: Bool
 
     var chatURL: URL? {
@@ -65,14 +66,18 @@ struct ChatView: View {
                 }
             }
             .onAppear {
+                isVisible = true
                 isFocused = true
                 connect()
             }
             .onDisappear {
+                isVisible = false
                 disconnect()
             }
             .onChange(of: name) {
-                connect()
+                if isVisible {
+                    connect()
+                }
             }
         }
     }
