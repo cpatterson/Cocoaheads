@@ -19,11 +19,6 @@ struct ContentView: View {
                 .tabItem {
                     TabLabel(imageName: "grid", label: "Play")
                 }
-
-            PaintView(name: $name)
-                .tabItem {
-                    TabLabel(imageName: "paintpalette", label: "Paint")
-                }
         }
         .onAppear {
             updateState()
