@@ -18,4 +18,5 @@ func routes(_ app: Application) throws {
     }
 
     app.ws.build(.demoChat).at("chat", ":name").serve()
+    app.ws.build(.demoGame).at("game", ":name").serve()
 }
